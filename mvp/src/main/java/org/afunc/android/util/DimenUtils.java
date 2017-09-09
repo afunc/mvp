@@ -18,79 +18,78 @@ import android.view.WindowManager;
  */
 public class DimenUtils {
 
-	/**
-	 * dp转px
-	 * 
-	 * @param context
-	 * @param dpVal
-	 * @return
-	 */
-	public static int dp2px(Context context, float dpVal) {
-		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpVal, context.getResources().getDisplayMetrics());
-	}
+    /**
+     * dp转px
+     *
+     * @param context 上下文
+     * @param dpVal   源
+     * @return 值
+     */
+    public static int dp2px(Context context, float dpVal) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpVal, context.getResources().getDisplayMetrics());
+    }
 
-	/**
-	 * sp转px
-	 * 
-	 * @param context
-	 * @param spVal
-	 * @return
-	 */
-	public static int sp2px(Context context, float spVal) {
-		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spVal, context.getResources().getDisplayMetrics());
-	}
+    /**
+     * sp转px
+     *
+     * @param context 上下文
+     * @param spVal   源
+     * @return 值
+     */
+    public static int sp2px(Context context, float spVal) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spVal, context.getResources().getDisplayMetrics());
+    }
 
-	/**
-	 * px转dp
-	 * 
-	 * @param context
-	 * @param pxVal
-	 * @return
-	 */
-	public static float px2dp(Context context, float pxVal) {
-		final float scale = context.getResources().getDisplayMetrics().density;
-		return (pxVal / scale);
-	}
+    /**
+     * px转dp
+     *
+     * @param context 上下文
+     * @param pxVal   源
+     * @return 值
+     */
+    public static float px2dp(Context context, float pxVal) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (pxVal / scale);
+    }
 
-	/**
-	 * px转sp
-	 * 
-	 * @param context
-	 * @param pxVal
-	 * @return
-	 */
-	public static float px2sp(Context context, float pxVal) {
-		return (pxVal / context.getResources().getDisplayMetrics().scaledDensity);
-	}
+    /**
+     * px转sp
+     *
+     * @param context 上下文
+     * @param pxVal   源
+     * @return 值
+     */
+    public static float px2sp(Context context, float pxVal) {
+        return (pxVal / context.getResources().getDisplayMetrics().scaledDensity);
+    }
 
-	/**
-	 * 获取屏幕尺寸
-	 */
-	@SuppressWarnings("deprecation")
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-	public static Point getScreenSize(Context context){
-		WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-		Display display = windowManager.getDefaultDisplay();
-		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR2){
-			return new Point(display.getWidth(), display.getHeight());
-		}else{
-			Point point = new Point();
-			display.getSize(point);
-			return point;
-		}
-	}
+    /**
+     * 获取屏幕尺寸
+     *
+     * @param context 上下文
+     * @return 寬高
+     */
+    @SuppressWarnings("deprecation")
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    public static Point getScreenSize(Context context) {
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        Point point = new Point();
+        display.getSize(point);
+        return point;
+    }
 
-	private static int[] deviceWidthHeight = new int[2];
+    private static int[] deviceWidthHeight = new int[2];
 
-	public static int[] getDeviceInfo(Context context) {
-		if ((deviceWidthHeight[0] == 0) && (deviceWidthHeight[1] == 0)) {
-			DisplayMetrics metrics = new DisplayMetrics();
-			((Activity) context).getWindowManager().getDefaultDisplay()
-					.getMetrics(metrics);
+    public static int[] getDeviceInfo(Context context) {
+        if ((deviceWidthHeight[0] == 0) && (deviceWidthHeight[1] == 0)) {
+            DisplayMetrics metrics = new DisplayMetrics();
+            ((Activity) context).getWindowManager().getDefaultDisplay()
+                    .getMetrics(metrics);
 
-			deviceWidthHeight[0] = metrics.widthPixels;
-			deviceWidthHeight[1] = metrics.heightPixels;
-		}
-		return deviceWidthHeight;
-	}
+            deviceWidthHeight[0] = metrics.widthPixels;
+            deviceWidthHeight[1] = metrics.heightPixels;
+        }
+        return deviceWidthHeight;
+    }
 }

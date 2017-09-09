@@ -16,7 +16,7 @@ public class LogUtils {
      */
     public static void init(boolean isDebug, String tag) {
         if (isDebug) {
-            DEBUG = isDebug;
+            DEBUG = true;
             mTAG = tag;
         }
     }

@@ -5,6 +5,7 @@ import android.support.annotation.*;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.Window;
+import org.afunc.android.util.LogUtils;
 
 
 /**
@@ -35,8 +36,9 @@ public abstract class ToolbarActivity<P extends SuperPresenter> extends SuperAct
     /**
      * @return 默认 主题设置为 Theme_AppCompat_Light_NoActionBar
      */
-    @StyleRes
-    protected int setActivityTheme() {
+
+    protected @StyleRes
+    int setActivityTheme() {
         return android.support.v7.appcompat.R.style.Theme_AppCompat_Light_NoActionBar;
     }
 
@@ -47,7 +49,8 @@ public abstract class ToolbarActivity<P extends SuperPresenter> extends SuperAct
         if (mToolbar != null) {
             modifyToolbar(mToolbar);
             setSupportActionBar(mToolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(isHomeBack);
+            if (null != getSupportActionBar()) getSupportActionBar().setDisplayHomeAsUpEnabled(isHomeBack);
+
         }
     }
 

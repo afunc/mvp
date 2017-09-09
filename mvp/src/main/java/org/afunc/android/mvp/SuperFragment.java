@@ -1,5 +1,6 @@
 package org.afunc.android.mvp;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -25,6 +26,7 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
     private T mPresenter;
     private Context mContext;
 
+    private View mView;
     private SuperActivity activity;
 
     /**
@@ -46,7 +48,6 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
         activity = (SuperActivity) context;
     }
 
-    private View mView;
 
     @SuppressWarnings("unchecked")
     public <V extends View> V $(@IdRes int id) {
@@ -177,6 +178,7 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
     /**
      * 生成 P 对象
      */
+    @SuppressWarnings("unchecked")
     public void attachPresenter() {
         Annotation[] annotations = getClass().getAnnotations();
         if (annotations.length > 0) {
@@ -186,10 +188,10 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
                     try {
                         mPresenter = (T) presenter.value().newInstance();
                         mPresenter.attachView(this);
-                    } catch (java.lang.InstantiationException e) {
-                        e.printStackTrace();
-                        LogUtils.e(TAG, e);
                     } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                        LogUtils.e(TAG + "", e);
+                    } catch (java.lang.InstantiationException e) {
                         e.printStackTrace();
                         LogUtils.e(TAG, e);
                     }

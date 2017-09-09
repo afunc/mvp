@@ -10,7 +10,7 @@ public class SuperPresenter<V> {
 
     private V mView;
 
-    public void attachView(V mView) {
+    protected void attachView(V mView) {
         this.mView = mView;
     }
 
@@ -19,14 +19,14 @@ public class SuperPresenter<V> {
     }
 
     //在Activity的onStart之后回调，在Fragment的onCreateView之后回调
-    public void onCreate() {
+    protected void onCreate() {
     }
 
     //在Activity的onResume之后回调，在Fragment的onResume中回调
-    public void onResume() {
+    protected void onResume() {
     }
 
     //在view的onDestroy中调用
-    public void onDestroy() {
+    protected void onDestroy() {
     }
 }

@@ -106,16 +106,17 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
         onPostResumeAfterSuper();
     }
 
-    private void onPostResumeAfterSuper() {
+    protected void onPostResumeAfterSuper() {
 
     }
 
-    private void onPostResumeBeforeSuper() {
+    protected void onPostResumeBeforeSuper() {
     }
 
     /**
      * 生成 P 对象
      */
+    @SuppressWarnings("unchecked")
     public void attachPresenter() {
         Annotation[] annotations = getClass().getAnnotations();
         if (annotations.length > 0) {
@@ -125,10 +126,7 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
                     try {
                         mPresenter = (P) presenter.value().newInstance();
                         mPresenter.attachView(this);
-                    } catch (InstantiationException e) {
-                        e.printStackTrace();
-                        LogUtils.e(TAG, e);
-                    } catch (IllegalAccessException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                         LogUtils.e(TAG, e);
                     }
@@ -159,7 +157,6 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
             mLoadingDialog = new AlertDialog.Builder(this)
                     .setView(progressBar)
                     .setMessage(msg)
-//                    .setCancelable(false)
                     .create();
 
         }

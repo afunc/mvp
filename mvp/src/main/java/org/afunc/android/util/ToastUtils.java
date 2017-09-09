@@ -13,6 +13,11 @@ public class ToastUtils {
 
     private static boolean isShow = true;
 
+    /**
+     * 可以在application 中设置
+     *
+     * @param show true or false
+     */
     public static void initToastUtils(boolean show) {
         isShow = show;
     }
@@ -20,8 +25,8 @@ public class ToastUtils {
     /**
      * 短时间显示Toast
      *
-     * @param context
-     * @param message
+     * @param context 上下文
+     * @param message 信息
      */
     public static void showShort(Context context, CharSequence message) {
         if (isShow)
@@ -31,8 +36,8 @@ public class ToastUtils {
     /**
      * 短时间显示Toast
      *
-     * @param context
-     * @param message
+     * @param context 上下文
+     * @param message 信息
      */
     public static void showShort(Context context, int message) {
         if (isShow)
@@ -42,8 +47,8 @@ public class ToastUtils {
     /**
      * 长时间显示Toast
      *
-     * @param context
-     * @param message
+     * @param context 上下文
+     * @param message 信息
      */
     public static void showLong(Context context, CharSequence message) {
         if (isShow)
@@ -53,8 +58,8 @@ public class ToastUtils {
     /**
      * 长时间显示Toast
      *
-     * @param context
-     * @param message
+     * @param context 上下文
+     * @param message 信息
      */
     public static void showLong(Context context, int message) {
         if (isShow)
@@ -64,9 +69,9 @@ public class ToastUtils {
     /**
      * 自定义显示Toast时间
      *
-     * @param context
-     * @param message
-     * @param duration
+     * @param context  上下文
+     * @param message  信息
+     * @param duration 时长
      */
     public static void show(Context context, CharSequence message, int duration) {
         if (isShow)
@@ -76,9 +81,9 @@ public class ToastUtils {
     /**
      * 自定义显示Toast时间
      *
-     * @param context
-     * @param message
-     * @param duration
+     * @param context  上下文
+     * @param message  信息
+     * @param duration 时长
      */
     public static void show(Context context, int message, int duration) {
         if (isShow)

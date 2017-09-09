@@ -1,5 +1,6 @@
 package org.afunc.android.mvp;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import org.afunc.android.util.LogUtils;
@@ -16,14 +17,16 @@ import java.util.Set;
  */
 public class SuperModel {
 
+    private static Context mContext;
+    private static Map<String, SuperModel> mInstanceMap = new HashMap<>();
+
     private final String TAG = "SuperModel";
     private final String OBJECT_CACHE = "ObjectCache"; //缓存对象文件目录
     private String mObjectCachePath;
-    private static Context mContext;
-    private static Map<String, SuperModel> mInstanceMap = new HashMap<>();
     protected SharedPreferences mSP;
     protected SharedPreferences.Editor mEditor;
 
+    @SuppressLint("CommitPrefEdits")
     public SuperModel() {
         mSP = mContext.getSharedPreferences(mContext.getPackageName(), Context.MODE_PRIVATE);
         mEditor = mSP.edit();
@@ -35,6 +38,7 @@ public class SuperModel {
         mContext = context;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T extends SuperModel> T getInstance(Class<T> model) {
         if (!mInstanceMap.containsKey(model.getSimpleName())) {
             synchronized (model) {
@@ -42,10 +46,7 @@ public class SuperModel {
                     T instance = model.newInstance();
                     mInstanceMap.put(model.getSimpleName(), instance);
                     return instance;
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                    return null;
-                } catch (IllegalAccessException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     return null;
                 }
@@ -115,19 +116,23 @@ public class SuperModel {
      * 目录:SDCard/Android/data/应用包名/data/files/ObjectCache
      */
     public void putObject(String key, Object value) {
-        File objectFile = new File(mObjectCachePath + "/" + key);
-        if (objectFile.exists()) {
-            objectFile.delete();
-        }
+        File objectFile;
         try {
-            objectFile.createNewFile();
-            ObjectOutputStream obs = new ObjectOutputStream(new FileOutputStream(objectFile));
-            obs.writeObject(value);
-            obs.close();
-        } catch (IOException e) {
+            objectFile = new File(mObjectCachePath + "/" + key);
+            if (objectFile.exists()) {
+                objectFile.delete();
+            }
+
+            if (objectFile.createNewFile()) {
+                ObjectOutputStream obs = new ObjectOutputStream(new FileOutputStream(objectFile));
+                obs.writeObject(value);
+                obs.close();
+            }
+        } catch (Exception e) {
             e.printStackTrace();
             LogUtils.i(TAG, "文件流打开失败。");
         }
+
     }
 
     public Object getObject(String key) {
@@ -162,9 +167,7 @@ public class SuperModel {
             for (File file : dir.listFiles()) {
                 deleteDir(file);
             }
-        } else {
-            dir.delete();
         }
-
+        dir.delete();
     }
 }
