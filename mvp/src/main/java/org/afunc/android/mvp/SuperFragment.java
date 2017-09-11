@@ -1,6 +1,5 @@
 package org.afunc.android.mvp;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -43,9 +42,19 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
      */
     @Override
     public final void onAttach(Context context) {
+        onAttachBeforeSuper(context);
         super.onAttach(context);
         mContext = context;
         activity = (SuperActivity) context;
+        onAttachAfterSuper();
+    }
+
+    protected void onAttachAfterSuper() {
+
+    }
+
+    protected void onAttachBeforeSuper(Context context) {
+
     }
 
 
@@ -188,12 +197,9 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
                     try {
                         mPresenter = (T) presenter.value().newInstance();
                         mPresenter.attachView(this);
-                    } catch (IllegalAccessException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                         LogUtils.e(TAG + "", e);
-                    } catch (java.lang.InstantiationException e) {
-                        e.printStackTrace();
-                        LogUtils.e(TAG, e);
                     }
                 }
             }
@@ -225,7 +231,7 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
     }
 
 
-    public Context getmContext() {
+    public Context getContext() {
         return mContext;
     }
 }
