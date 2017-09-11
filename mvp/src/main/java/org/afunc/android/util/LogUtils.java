@@ -15,10 +15,8 @@ public class LogUtils {
      * @param tag 在application 中 可以设置统一的 mTAG
      */
     public static void init(boolean isDebug, String tag) {
-        if (isDebug) {
-            DEBUG = true;
-            mTAG = tag;
-        }
+        DEBUG = isDebug;
+        mTAG = tag;
     }
 
     /**
