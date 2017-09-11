@@ -130,7 +130,7 @@ public class SuperModel {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            LogUtils.i(TAG, "文件流打开失败。");
+            LogUtils.e(TAG, "文件流打开失败。");
         }
 
     }
@@ -138,7 +138,7 @@ public class SuperModel {
     public Object getObject(String key) {
         File objectFile = new File(mObjectCachePath + "/" + key);
         if (!objectFile.exists()) {
-            LogUtils.i(TAG, "该对象没有被缓存");
+            LogUtils.e(TAG, "该对象没有被缓存");
             return null;
         }
         try {
@@ -150,7 +150,7 @@ public class SuperModel {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            LogUtils.i(TAG, "对象缓存读取失败");
+            LogUtils.e(TAG, "对象缓存读取失败");
         }
         return null;
     }
