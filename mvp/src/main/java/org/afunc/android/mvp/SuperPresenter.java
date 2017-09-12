@@ -17,16 +17,5 @@ public class SuperPresenter<V> {
     protected V getView() {
         return mView;
     }
-
-    //在Activity的onStart之后回调，在Fragment的onCreateView之后回调
-    protected void onCreate() {
-    }
-
-    //在Activity的onResume之后回调，在Fragment的onResume中回调
-    protected void onResume() {
-    }
-
-    //在view的onDestroy中调用
-    protected void onDestroy() {
-    }
+    
 }

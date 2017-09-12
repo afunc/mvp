@@ -6,10 +6,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -30,7 +27,7 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
     private final String TAG = "SuperActivity";
     private Dialog mDialog;
     private Dialog mLoadingDialog;
-    protected P mPresenter;
+    private P mPresenter;
 
 
     protected abstract @LayoutRes
@@ -72,52 +69,12 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
         return mPresenter;
     }
 
-    /**
-     * onPostCreate final 避免被重写 可使用 beforeSuper 和 afterSuper
-     */
-    //在onStart之后回调
-    @Override
-    protected final void onPostCreate(@Nullable Bundle savedInstanceState) {
-        onPostCreateBeforeSuper(savedInstanceState);
-        super.onPostCreate(savedInstanceState);
-        if (mPresenter != null) {
-            mPresenter.onCreate();
-        }
-        onPostCreateAfterSuper();
-    }
-
-    protected void onPostCreateAfterSuper() {
-    }
-
-    protected void onPostCreateBeforeSuper(Bundle savedInstanceState) {
-    }
-
-    /**
-     * onPostResume final 避免被重写 可使用 beforeSuper 和 afterSuper
-     */
-    //在onResume之后回调
-    @Override
-    protected final void onPostResume() {
-        onPostResumeBeforeSuper();
-        super.onPostResume();
-        if (mPresenter != null) {
-            mPresenter.onResume();
-        }
-        onPostResumeAfterSuper();
-    }
-
-    protected void onPostResumeAfterSuper() {
-
-    }
-
-    protected void onPostResumeBeforeSuper() {
-    }
 
     /**
      * 生成 P 对象
      */
     @SuppressWarnings("unchecked")
-    public void attachPresenter() {
+    private final void attachPresenter() {
         Annotation[] annotations = getClass().getAnnotations();
         if (annotations.length > 0) {
             for (Annotation annotation : annotations) {
@@ -138,6 +95,7 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
+    @CallSuper
     public void setContentView(@LayoutRes int layoutResID) {
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         super.setContentView(layoutResID);
@@ -203,15 +161,15 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
      * onDestroy final 避免被重写 可使用 beforeSuper 和 afterSuper
      */
     @Override
-    protected final void onDestroy() {
+    @CallSuper
+    protected void onDestroy() {
         onDestroyBeforeSuper();
         super.onDestroy();
         dismissDialog();
         dismissLoadingDialog();
         if (mPresenter != null) {
-            mPresenter.onDestroy();
+            mPresenter = null;
         }
-        mPresenter = null;
         onDestroyAfterSuper();
     }
 

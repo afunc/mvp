@@ -2,9 +2,7 @@ package org.afunc.android.mvp;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,12 +26,6 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
     private View mView;
     private SuperActivity activity;
 
-    /**
-     * @return 拥有此fragment 的 superActivity
-     */
-    public SuperActivity getHoldingActivity() {
-        return activity;
-    }
 
     /**
      * 绑定上下文 到 mContext 与activity中
@@ -41,7 +33,8 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
      * @param context 上下文对象
      */
     @Override
-    public final void onAttach(Context context) {
+    @CallSuper
+    public void onAttach(Context context) {
         onAttachBeforeSuper(context);
         super.onAttach(context);
         mContext = context;
@@ -69,7 +62,8 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
      * 在此方法中 调用了 attachPresenter 来绑定 P
      */
     @Override
-    public final void onCreate(@Nullable Bundle savedInstanceState) {
+    @CallSuper
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         onCreateBeforeSuper(savedInstanceState);
         super.onCreate(savedInstanceState);
         attachPresenter();
@@ -93,12 +87,11 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
     protected abstract @LayoutRes
     int setContentViewId();
 
-    /**
-     * onCreateView final 避免被重写 可使用 beforeSuper 和 afterSuper
-     */
-    @Nullable
+
+    @NonNull
     @Override //container ---> activity
-    public final View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    @CallSuper
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         onCreatedViewBeforeSuper(inflater, container, savedInstanceState);
         super.onCreateView(inflater, container, savedInstanceState);
         mView = inflater.inflate(setContentViewId(), container, false);
@@ -123,72 +116,12 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
 
     }
 
-    /**
-     * 在这个方法中执行 P 的 onCreate
-     *
-     * @param view               fragment 的视图
-     * @param savedInstanceState 系统状态 bundle
-     */
-    @Override
-    public final void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        onViewCreatedBeforeSuper(view, savedInstanceState);
-        super.onViewCreated(view, savedInstanceState);
-        if (mPresenter != null)
-            mPresenter.onCreate();
-        onViewCreatedAfterSuper(view, savedInstanceState);
-    }
-
-    /**
-     * 在 onViewCreated 中 首先执行
-     *
-     * @param view               fragment 的视图
-     * @param savedInstanceState 系统状态 bundle
-     */
-    protected void onViewCreatedBeforeSuper(View view, Bundle savedInstanceState) {
-    }
-
-    /**
-     * 在 onViewCreated 中 最后
-     *
-     * @param view               fragment 的视图
-     * @param savedInstanceState 系统状态 bundle
-     */
-    protected void onViewCreatedAfterSuper(View view, Bundle savedInstanceState) {
-
-
-    }
-
-    /**
-     * onResume final 避免被重写 可使用 beforeSuper 和 afterSuper
-     */
-    @Override
-    public final void onResume() {
-        onResumeBeforeSuper();
-        super.onResume();
-        if (mPresenter != null)
-            mPresenter.onResume();
-
-        onResumeAfterSuper();
-    }
-
-    /**
-     * 在 onResume 中首先执行
-     */
-    protected void onResumeAfterSuper() {
-    }
-
-    /**
-     * 在 onResume 中最后执行
-     */
-    protected void onResumeBeforeSuper() {
-
-    }
 
     /**
      * 生成 P 对象
      */
     @SuppressWarnings("unchecked")
-    public void attachPresenter() {
+    private void attachPresenter() {
         Annotation[] annotations = getClass().getAnnotations();
         if (annotations.length > 0) {
             for (Annotation annotation : annotations) {
@@ -206,21 +139,18 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
         }
     }
 
-    public T getPresenter() {
-        return mPresenter;
-    }
 
     /**
      * onDestroy final 避免被重写 可使用 beforeSuper 和 afterSuper
      */
     @Override
-    public final void onDestroy() {
+    @CallSuper
+    public void onDestroy() {
         onDestroyBeforeSuper();
         super.onDestroy();
         if (mPresenter != null) {
-            mPresenter.onDestroy();
+            mPresenter = null;
         }
-        mPresenter = null;
         onDestroyAfterSuper();
     }
 
@@ -230,6 +160,18 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
     protected void onDestroyBeforeSuper() {
     }
 
+
+    /**
+     * @return 拥有此fragment 的 superActivity
+     */
+    public SuperActivity getHoldingActivity() {
+        return activity;
+    }
+
+
+    public T getPresenter() {
+        return mPresenter;
+    }
 
     public Context getContext() {
         return mContext;
