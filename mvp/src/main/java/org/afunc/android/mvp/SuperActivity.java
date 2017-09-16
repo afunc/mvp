@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ProgressBar;
+
 import org.afunc.android.util.DimenUtils;
 import org.afunc.android.util.LogUtils;
 
@@ -30,7 +31,8 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
     private P mPresenter;
 
 
-    protected abstract @LayoutRes
+    protected abstract
+    @LayoutRes
     int setContentViewId();
 
     /**
@@ -51,7 +53,7 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
     /**
      * @param intent 不必判空
      */
-    protected void handIntent(Intent intent) {
+    protected void handIntent(@NonNull Intent intent) {
     }
 
     protected void onCreateBeforeSuper(Bundle savedInstanceState) {
@@ -99,6 +101,10 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
     public void setContentView(@LayoutRes int layoutResID) {
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         super.setContentView(layoutResID);
+        setContentViewAfterSuper();
+    }
+
+    protected void setContentViewAfterSuper() {
     }
 
     /**

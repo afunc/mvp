@@ -2,8 +2,12 @@ package org.afunc.android.mvp;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.*;
+import android.support.annotation.CallSuper;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.Window;
@@ -32,41 +36,32 @@ public abstract class ToolbarActivity<P extends SuperPresenter> extends SuperAct
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
         mToolbar = $(setToolbarId());
+
     }
 
-    protected abstract @IdRes
+    protected abstract
+    @IdRes
     int setToolbarId();
 
     /**
      * @return 默认 主题设置为 Theme_AppCompat_Light_NoActionBar
      */
     @SuppressLint("PrivateResource")
-    protected @StyleRes
+    protected
+    @StyleRes
     int setActivityTheme() {
         return android.support.v7.appcompat.R.style.Theme_AppCompat_Light_NoActionBar;
     }
 
 
-    @Override
     @CallSuper
-    public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        onPostCreateBeforeSuper(savedInstanceState, persistentState);
-        super.onPostCreate(savedInstanceState, persistentState);
-        onPostCreateAfterSuper();
-    }
-
-    @CallSuper
-    protected void onPostCreateAfterSuper() {
-        if (mToolbar != null) {
+    protected void onCreateAfterSuper() {
+        if (null != mToolbar) {
             modifyToolbar(mToolbar);
             setSupportActionBar(mToolbar);
-            if (null != getSupportActionBar()) getSupportActionBar().setDisplayHomeAsUpEnabled(isHomeBack);
+            if (null != getSupportActionBar())
+                getSupportActionBar().setDisplayHomeAsUpEnabled(isHomeBack);
         }
-    }
-
-
-    protected void onPostCreateBeforeSuper(Bundle savedInstanceState, PersistableBundle persistentState) {
-
     }
 
 
@@ -75,7 +70,7 @@ public abstract class ToolbarActivity<P extends SuperPresenter> extends SuperAct
      *
      * @param mToolbar Toolbar
      */
-    protected void modifyToolbar(@Nullable Toolbar mToolbar) {
+    protected void modifyToolbar(@NonNull Toolbar mToolbar) {
 
     }
 
