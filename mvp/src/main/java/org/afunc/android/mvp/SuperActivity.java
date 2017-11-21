@@ -60,6 +60,9 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
     }
 
     protected void onCreateAfterSuper() {
+        if (null!=mPresenter){
+            mPresenter.init();
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -99,9 +102,15 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
     @Override
     @CallSuper
     public void setContentView(@LayoutRes int layoutResID) {
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+
+        setContentViewBeforeSuper();
+        //getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         super.setContentView(layoutResID);
         setContentViewAfterSuper();
+    }
+
+    protected void setContentViewBeforeSuper() {
+
     }
 
     protected void setContentViewAfterSuper() {

@@ -17,5 +17,8 @@ public class SuperPresenter<V> {
     protected V getView() {
         return mView;
     }
-    
+
+    protected void init() {
+
+    }
 }
