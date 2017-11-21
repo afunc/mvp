@@ -31,7 +31,7 @@ dependencies {
 }
 
 task jarDelete(type: Delete) {
-    delete 'build/outputs/mvp.jar'
+    delete 'build/jar/mvp.jar'
 }
 task jarMake(dependsOn :['compileReleaseJavaWithJavac','jarDelete'],type:Jar){
 
