@@ -79,17 +79,13 @@ public class DimenUtils {
         return point;
     }
 
-    private static int[] deviceWidthHeight = new int[2];
-
     public static int[] getDeviceInfo(Context context) {
-        if ((deviceWidthHeight[0] == 0) && (deviceWidthHeight[1] == 0)) {
-            DisplayMetrics metrics = new DisplayMetrics();
-            ((Activity) context).getWindowManager().getDefaultDisplay()
-                    .getMetrics(metrics);
-
-            deviceWidthHeight[0] = metrics.widthPixels;
-            deviceWidthHeight[1] = metrics.heightPixels;
-        }
+        int[] deviceWidthHeight = new int[2];
+        DisplayMetrics metrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay()
+                .getMetrics(metrics);
+        deviceWidthHeight[0] = metrics.widthPixels;
+        deviceWidthHeight[1] = metrics.heightPixels;
         return deviceWidthHeight;
     }
 }

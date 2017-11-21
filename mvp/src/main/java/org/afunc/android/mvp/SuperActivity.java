@@ -73,7 +73,6 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
         return mPresenter;
     }
 
-
     /**
      * 生成 P 对象
      */
@@ -101,9 +100,7 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
     @Override
     @CallSuper
     public void setContentView(@LayoutRes int layoutResID) {
-
         beforeSetContentView();
-        //getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         super.setContentView(layoutResID);
         afterSetContentView();
     }
@@ -130,16 +127,8 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
                     .setView(progressBar)
                     .setMessage(msg)
                     .create();
-
         }
         mDialog.setCanceledOnTouchOutside(false);
-        mDialog.show();
-    }
-
-
-    public void showLoadingDialog(@NonNull Dialog dialog) {
-        dismissDialog();
-        mDialog = dialog;
         mDialog.show();
     }
 
@@ -172,10 +161,10 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
         if (mPresenter != null) {
             mPresenter = null;
         }
-        AfterDestroy();
+        afterDestroy();
     }
 
-    protected void AfterDestroy() {
+    protected void afterDestroy() {
     }
 
     protected void beforeDestroy() {
