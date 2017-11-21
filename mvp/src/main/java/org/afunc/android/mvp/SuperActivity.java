@@ -44,10 +44,14 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
         super.onCreate(savedInstanceState);
         attachPresenter();
         setContentView(setContentViewId());
+        afterSetContentView();
         if (null != getIntent()) {
             handIntent(getIntent());
         }
         onCreateAfterSuper();
+    }
+
+    protected void afterSetContentView() {
     }
 
     /**
