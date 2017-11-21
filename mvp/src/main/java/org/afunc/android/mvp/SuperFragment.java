@@ -34,19 +34,19 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
      */
     @Override
     @CallSuper
-    public void onAttach(Context context) {
-        onAttachBeforeSuper(context);
+    public final void onAttach(Context context) {
+        beforeAttach(context);
         super.onAttach(context);
         mContext = context;
         activity = (SuperActivity) context;
-        onAttachAfterSuper();
+        afterAttach();
     }
 
-    protected void onAttachAfterSuper() {
+    protected void afterAttach() {
 
     }
 
-    protected void onAttachBeforeSuper(Context context) {
+    protected void beforeAttach(Context context) {
 
     }
 
@@ -64,16 +64,16 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
     @Override
     @CallSuper
     public final void onCreate(@Nullable Bundle savedInstanceState) {
-        onCreateBeforeSuper(savedInstanceState);
+        beforeCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
         attachPresenter();
-        onCreateAfterSuper();
+        afterCreate();
     }
 
     /**
      * 在attachPresenter 后执行
      */
-    protected void onCreateAfterSuper() {
+    protected void afterCreate() {
         if (null!=mPresenter){
             mPresenter.init();
         }
@@ -84,7 +84,7 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
      *
      * @param savedInstanceState 系统状态 bundle
      */
-    protected void onCreateBeforeSuper(Bundle savedInstanceState) {
+    protected void beforeCreate(Bundle savedInstanceState) {
     }
 
     protected abstract @LayoutRes
@@ -95,10 +95,10 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
     @Override //container ---> activity
     @CallSuper
     public final View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        onCreatedViewBeforeSuper(inflater, container, savedInstanceState);
+        beforeCreatedView(inflater, container, savedInstanceState);
         super.onCreateView(inflater, container, savedInstanceState);
         mView = inflater.inflate(setContentViewId(), container, false);
-        onCreatedViewAfterSuper(mView);
+        afterCreatedView(mView);
         return mView;
     }
 
@@ -107,7 +107,7 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
      *
      * @param mView fragment 的视图
      */
-    protected void onCreatedViewAfterSuper(View mView) {
+    protected void afterCreatedView(View mView) {
     }
 
     /**
@@ -115,7 +115,7 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
      * @param container          viewGroup
      * @param savedInstanceState 系统状态 bundle
      */
-    protected void onCreatedViewBeforeSuper(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    protected void beforeCreatedView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
     }
 
@@ -124,7 +124,7 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
      * 生成 P 对象
      */
     @SuppressWarnings("unchecked")
-    private void attachPresenter() {
+    private final void attachPresenter() {
         Annotation[] annotations = getClass().getAnnotations();
         if (annotations.length > 0) {
             for (Annotation annotation : annotations) {
@@ -149,18 +149,18 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
     @Override
     @CallSuper
     public final void onDestroy() {
-        onDestroyBeforeSuper();
+        beforeDestroy();
         super.onDestroy();
         if (mPresenter != null) {
             mPresenter = null;
         }
-        onDestroyAfterSuper();
+        afterDestroy();
     }
 
-    protected void onDestroyAfterSuper() {
+    protected void afterDestroy() {
     }
 
-    protected void onDestroyBeforeSuper() {
+    protected void beforeDestroy() {
     }
 
 

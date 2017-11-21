@@ -1,16 +1,19 @@
 package org.afunc.android.mvp;
 
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.*;
+import android.support.annotation.CallSuper;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.Window;
 import android.widget.ProgressBar;
 
 import org.afunc.android.util.DimenUtils;
@@ -27,7 +30,6 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
 
     private final String TAG = "SuperActivity";
     private Dialog mDialog;
-    private Dialog mLoadingDialog;
     private P mPresenter;
 
 
@@ -40,30 +42,23 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
      */
     @Override
     protected final void onCreate(@Nullable Bundle savedInstanceState) {
-        onCreateBeforeSuper(savedInstanceState);
+        beforeCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
         attachPresenter();
         setContentView(setContentViewId());
-        afterSetContentView();
         if (null != getIntent()) {
             handIntent(getIntent());
         }
-        onCreateAfterSuper();
+        afterCreate();
     }
 
-    protected void afterSetContentView() {
-    }
-
-    /**
-     * @param intent 不必判空
-     */
     protected void handIntent(@NonNull Intent intent) {
     }
 
-    protected void onCreateBeforeSuper(Bundle savedInstanceState) {
+    protected void beforeCreate(@Nullable Bundle savedInstanceState) {
     }
 
-    protected void onCreateAfterSuper() {
+    protected void afterCreate() {
         if (null!=mPresenter){
             mPresenter.init();
         }
@@ -107,56 +102,45 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
     @CallSuper
     public void setContentView(@LayoutRes int layoutResID) {
 
-        setContentViewBeforeSuper();
+        beforeSetContentView();
         //getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         super.setContentView(layoutResID);
-        setContentViewAfterSuper();
+        afterSetContentView();
     }
 
-    protected void setContentViewBeforeSuper() {
+    protected void beforeSetContentView() {
 
     }
 
-    protected void setContentViewAfterSuper() {
+    protected void afterSetContentView() {
     }
 
     /**
      * 显示进度条的dialog
      */
     public void showLoadingDialog(String msg) {
-        if (mLoadingDialog == null) {
+        if (mDialog == null) {
             ProgressBar progressBar = new ProgressBar(this);
             progressBar.setPadding(DimenUtils.dp2px(this, 16),
                     DimenUtils.dp2px(this, 16),
                     DimenUtils.dp2px(this, 16),
                     DimenUtils.dp2px(this, 16));
             progressBar.setBackgroundResource(android.R.color.transparent);
-            mLoadingDialog = new AlertDialog.Builder(this)
+            mDialog = new AlertDialog.Builder(this)
                     .setView(progressBar)
                     .setMessage(msg)
                     .create();
 
         }
-        mLoadingDialog.setCanceledOnTouchOutside(false);
-        mLoadingDialog.show();
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.show();
     }
 
 
     public void showLoadingDialog(@NonNull Dialog dialog) {
-        dismissLoadingDialog();
-        mLoadingDialog = dialog;
-        mLoadingDialog.show();
-    }
-
-
-    /**
-     * 隐藏销毁加载框
-     */
-    public void dismissLoadingDialog() {
-        if (mLoadingDialog != null) {
-            mLoadingDialog.dismiss();
-            mLoadingDialog = null;
-        }
+        dismissDialog();
+        mDialog = dialog;
+        mDialog.show();
     }
 
 
@@ -181,21 +165,20 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
      */
     @Override
     @CallSuper
-    protected void onDestroy() {
-        onDestroyBeforeSuper();
+    protected final void onDestroy() {
+        beforeDestroy();
         super.onDestroy();
         dismissDialog();
-        dismissLoadingDialog();
         if (mPresenter != null) {
             mPresenter = null;
         }
-        onDestroyAfterSuper();
+        AfterDestroy();
     }
 
-    protected void onDestroyAfterSuper() {
+    protected void AfterDestroy() {
     }
 
-    protected void onDestroyBeforeSuper() {
+    protected void beforeDestroy() {
     }
 
     //返回键返回事件 默认结束自己
@@ -209,6 +192,4 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
         }
         return super.onKeyDown(keyCode, event);
     }
-
-
 }

@@ -22,13 +22,10 @@ public abstract class ToolbarActivity<P extends SuperPresenter> extends SuperAct
 
     //设置 toolbar 是否显示返回键
     private Toolbar mToolbar;
-    private boolean isHomeBack = false;
 
-    /**
-     * @param homeBack 显示 返回键？
-     */
-    protected void setHomeBack(boolean homeBack) {
-        isHomeBack = homeBack;
+
+    protected boolean showHomeBack() {
+        return false;
     }
 
     @Override
@@ -36,7 +33,6 @@ public abstract class ToolbarActivity<P extends SuperPresenter> extends SuperAct
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
         mToolbar = $(setToolbarId());
-
     }
 
     protected abstract
@@ -60,7 +56,7 @@ public abstract class ToolbarActivity<P extends SuperPresenter> extends SuperAct
             modifyToolbar(mToolbar);
             setSupportActionBar(mToolbar);
             if (null != getSupportActionBar())
-                getSupportActionBar().setDisplayHomeAsUpEnabled(isHomeBack);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(showHomeBack());
         }
     }
 
@@ -76,8 +72,8 @@ public abstract class ToolbarActivity<P extends SuperPresenter> extends SuperAct
 
     @Override
     @CallSuper
-    protected void onCreateBeforeSuper(@Nullable Bundle savedInstanceState) {
-        super.onCreateBeforeSuper(savedInstanceState);
+    protected void beforeCreate(@Nullable Bundle savedInstanceState) {
+        super.beforeCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setTheme(setActivityTheme());
     }
@@ -85,7 +81,7 @@ public abstract class ToolbarActivity<P extends SuperPresenter> extends SuperAct
     @Override
     @CallSuper
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home && isHomeBack) {
+        if (item.getItemId() == android.R.id.home && showHomeBack()) {
             finish();
             return true;
         } else {
