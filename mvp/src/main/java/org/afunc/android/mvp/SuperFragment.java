@@ -63,7 +63,7 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
      */
     @Override
     @CallSuper
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public final void onCreate(@Nullable Bundle savedInstanceState) {
         onCreateBeforeSuper(savedInstanceState);
         super.onCreate(savedInstanceState);
         attachPresenter();
@@ -74,6 +74,9 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
      * 在attachPresenter 后执行
      */
     protected void onCreateAfterSuper() {
+        if (null!=mPresenter){
+            mPresenter.init();
+        }
     }
 
     /**
@@ -91,7 +94,7 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
     @NonNull
     @Override //container ---> activity
     @CallSuper
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public final View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         onCreatedViewBeforeSuper(inflater, container, savedInstanceState);
         super.onCreateView(inflater, container, savedInstanceState);
         mView = inflater.inflate(setContentViewId(), container, false);
@@ -145,7 +148,7 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
      */
     @Override
     @CallSuper
-    public void onDestroy() {
+    public final void onDestroy() {
         onDestroyBeforeSuper();
         super.onDestroy();
         if (mPresenter != null) {
