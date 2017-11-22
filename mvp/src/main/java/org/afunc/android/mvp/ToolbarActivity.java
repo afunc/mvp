@@ -1,16 +1,12 @@
 package org.afunc.android.mvp;
 
-import android.annotation.SuppressLint;
-import android.os.Bundle;
+
 import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.Window;
 
 
 /**
@@ -39,17 +35,6 @@ public abstract class ToolbarActivity<P extends SuperPresenter> extends SuperAct
     @IdRes
     int setToolbarId();
 
-    /**
-     * @return 默认 主题设置为 Theme_AppCompat_Light_NoActionBar
-     */
-    @SuppressLint("PrivateResource")
-    protected
-    @StyleRes
-    int setActivityTheme() {
-        return android.support.v7.appcompat.R.style.Theme_AppCompat_Light_NoActionBar;
-    }
-
-
     @CallSuper
     protected void onCreateAfterSuper() {
         if (null != mToolbar) {
@@ -68,14 +53,6 @@ public abstract class ToolbarActivity<P extends SuperPresenter> extends SuperAct
      */
     protected void modifyToolbar(@NonNull Toolbar mToolbar) {
 
-    }
-
-    @Override
-    @CallSuper
-    protected void beforeCreate(@Nullable Bundle savedInstanceState) {
-        super.beforeCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setTheme(setActivityTheme());
     }
 
     @Override
