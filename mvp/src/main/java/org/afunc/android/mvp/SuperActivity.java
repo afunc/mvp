@@ -33,10 +33,6 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
     private P mPresenter;
 
 
-    protected abstract
-    @LayoutRes
-    int setContentViewId();
-
     /**
      * onCreate final 避免被重写 可使用 beforeSuper 和 afterSuper
      */
@@ -45,12 +41,14 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
         beforeCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
         attachPresenter();
-        setContentView(setContentViewId());
+        setContentView(setContentResource());
         if (null != getIntent()) {
             handIntent(getIntent());
         }
         afterCreate();
     }
+
+    protected  abstract @LayoutRes int setContentResource();
 
     protected void handIntent(@NonNull Intent intent) {
     }

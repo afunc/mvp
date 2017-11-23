@@ -62,7 +62,6 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
      * 在此方法中 调用了 attachPresenter 来绑定 P
      */
     @Override
-    @CallSuper
     public final void onCreate(@Nullable Bundle savedInstanceState) {
         beforeCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
@@ -73,6 +72,7 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
     /**
      * 在attachPresenter 后执行
      */
+    @CallSuper
     protected void afterCreate() {
         if (null!=mPresenter){
             mPresenter.init();
@@ -88,7 +88,7 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
     }
 
     protected abstract @LayoutRes
-    int setContentViewId();
+    int setContentResource();
 
 
     @NonNull
@@ -97,7 +97,7 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
     public final View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         beforeCreatedView(inflater, container, savedInstanceState);
         super.onCreateView(inflater, container, savedInstanceState);
-        mView = inflater.inflate(setContentViewId(), container, false);
+        mView = inflater.inflate(setContentResource(), container, false);
         afterCreatedView(mView);
         return mView;
     }
@@ -147,7 +147,6 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
      * onDestroy final 避免被重写 可使用 beforeSuper 和 afterSuper
      */
     @Override
-    @CallSuper
     public final void onDestroy() {
         beforeDestroy();
         super.onDestroy();
