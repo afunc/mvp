@@ -74,9 +74,7 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
      */
     @CallSuper
     protected void afterCreate() {
-        if (null!=mPresenter){
-            mPresenter.init();
-        }
+
     }
 
     /**
@@ -108,6 +106,9 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
      * @param mView fragment 的视图
      */
     protected void afterCreatedView(View mView) {
+        if (null!=mPresenter){
+            mPresenter.init();
+        }
     }
 
     /**
