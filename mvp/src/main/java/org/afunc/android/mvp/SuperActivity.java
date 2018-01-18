@@ -116,10 +116,10 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
     public void showLoadingDialog(String msg) {
         if (mDialog == null) {
             ProgressBar progressBar = new ProgressBar(this);
-            progressBar.setPadding(DimenUtils.dp2px(this, 16),
-                    DimenUtils.dp2px(this, 16),
-                    DimenUtils.dp2px(this, 16),
-                    DimenUtils.dp2px(this, 16));
+            progressBar.setPadding(DimenUtils.dp2px(16),
+                    DimenUtils.dp2px(16),
+                    DimenUtils.dp2px(16),
+                    DimenUtils.dp2px(16));
             progressBar.setBackgroundResource(android.R.color.transparent);
             mDialog = new AlertDialog.Builder(this)
                     .setView(progressBar)

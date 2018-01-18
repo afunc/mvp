@@ -1,5 +1,6 @@
 package org.afunc.android.util;
 
+import android.content.Context;
 import android.util.Log;
 
 /**
@@ -14,8 +15,25 @@ public class LogUtils {
     /**
      * @param tag 在application 中 可以设置统一的 mTAG
      */
-    public static void init(boolean isDebug, String tag) {
-        DEBUG = isDebug;
+    public static void init(String tag) {
+        DEBUG = true;
+        mTAG = tag;
+    }
+
+    /**
+     *
+     * @param debug 是否显示
+     */
+    public static void init(boolean debug) {
+        DEBUG = debug;
+    }
+    /**
+     *
+     * @param tag tag 字符串
+     * @param debug 是否显示
+     */
+    public static void init(String tag ,boolean debug) {
+        DEBUG = debug;
         mTAG = tag;
     }
 

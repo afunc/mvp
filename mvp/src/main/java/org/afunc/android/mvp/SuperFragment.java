@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import org.afunc.android.util.LogUtils;
 
 import java.lang.annotation.Annotation;
@@ -106,7 +107,7 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
      * @param mView fragment 的视图
      */
     protected void afterCreatedView(View mView) {
-        if (null!=mPresenter){
+        if (null != mPresenter) {
             mPresenter.init();
         }
     }
@@ -125,7 +126,7 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
      * 生成 P 对象
      */
     @SuppressWarnings("unchecked")
-    private final void attachPresenter() {
+     final void attachPresenter() {
         Annotation[] annotations = getClass().getAnnotations();
         if (annotations.length > 0) {
             for (Annotation annotation : annotations) {
