@@ -183,7 +183,7 @@ public abstract class AbstractActivity<P extends SuperPresenter> extends AppComp
      *
      * @param keyCode 按键代码
      * @param event   事件
-     * @return
+     * @return super.onKeyDown(keyCode, event); or true
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
