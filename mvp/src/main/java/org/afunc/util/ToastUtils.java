@@ -1,4 +1,4 @@
-package org.afunc.android.util;
+package org.afunc.util;
 
 import android.content.Context;
 import android.support.annotation.IntDef;

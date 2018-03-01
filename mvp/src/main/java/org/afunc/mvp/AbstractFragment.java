@@ -1,4 +1,4 @@
-package org.afunc.android.mvp;
+package org.afunc.mvp;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.afunc.android.util.LogUtils;
+import org.afunc.util.LogUtils;
 
 import java.lang.annotation.Annotation;
 

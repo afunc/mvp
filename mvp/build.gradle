@@ -55,3 +55,23 @@ task javadoc(type: Javadoc) {
 //    options.links "https://github.com/linglongxin24/FastDev/tree/master/mylibrary/docs/javadoc"
     failOnError false
 }
+
+
+/** 以下开始是将Android Library上传到jcenter的相关配置**/
+apply plugin: 'com.novoda.bintray-release'//添加
+//项目主页
+def siteUrl = 'https://bintray.com/afunc/mvp'
+publish{
+    repoName = 'mvp'//远程仓库名字,不指明，默认是上传到maven
+    userOrg = 'afunc'//bintray.com的用户名
+    groupId = 'org.afunc.android'//jcenter上的路径
+    artifactId = 'mvp'//项目名称
+    publishVersion = '1.1'//版本号
+    desc = '一种安卓MVP的实现方式'//描述，不重要
+    website = siteUrl//项目主页
+}
+tasks.withType(Javadoc) {//防止编码问题
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+    options.addStringOption('charSet', 'UTF-8')
+}

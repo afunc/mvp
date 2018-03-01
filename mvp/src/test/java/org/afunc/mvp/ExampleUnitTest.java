@@ -1,4 +1,4 @@
-package org.afunc.android.mvp;
+package org.afunc.mvp;
 
 import org.junit.Test;
 

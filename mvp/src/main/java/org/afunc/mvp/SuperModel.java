@@ -1,10 +1,10 @@
-package org.afunc.android.mvp;
+package org.afunc.mvp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import org.afunc.android.util.LogUtils;
+import org.afunc.util.LogUtils;
 
 import java.io.*;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package org.afunc.android.util;
+package org.afunc.util;
 
 import android.annotation.TargetApi;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package org.afunc.android.mvp;
+package org.afunc.mvp;
 
 /**
  * @author 紫紫 on 2017/8/7

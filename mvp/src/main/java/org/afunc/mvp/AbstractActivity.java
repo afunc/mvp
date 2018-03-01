@@ -1,4 +1,4 @@
-package org.afunc.android.mvp;
+package org.afunc.mvp;
 
 import android.annotation.TargetApi;
 import android.app.Dialog;
@@ -16,8 +16,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import org.afunc.android.util.DimenUtils;
-import org.afunc.android.util.LogUtils;
+import org.afunc.util.DimenUtils;
+import org.afunc.util.LogUtils;
 
 import java.lang.annotation.Annotation;
 
