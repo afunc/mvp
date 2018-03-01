@@ -3,6 +3,7 @@ package org.afunc.android.mvp;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import org.afunc.android.util.LogUtils;
 
 import java.io.*;
@@ -11,9 +12,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @author  紫紫 on 2017/8/7
- * Q157596462@outlook.com
- * 描述：
+ * @author 紫紫 on 2017/8/7
+ *         Q157596462@outlook.com
+ *         描述：
  */
 public class SuperModel {
 
@@ -39,6 +40,7 @@ public class SuperModel {
     /**
      * 这样去写单例模式虽然可以省去很多代码，不过因为newInstance方法有限制：
      * 构造函数必须public,必须有一个构造函数没有参数
+     *
      * @param context 上下文对象
      */
     public static void initialize(Context context) {
@@ -64,6 +66,8 @@ public class SuperModel {
 
     /**
      * 通过sp保存基本类型数据
+     * @param key key
+     * @param value value
      */
     public void putInt(String key, int value) {
         mEditor.putInt(key, value);
@@ -121,6 +125,8 @@ public class SuperModel {
     /**
      * 通过文件保存对象数据，对象必须可序列化。通过清理app数据即可清理掉数据
      * 目录:SDCard/Android/data/应用包名/data/files/ObjectCache
+     * @param key key
+     * @param value value
      */
     public void putObject(String key, Object value) {
         File objectFile;

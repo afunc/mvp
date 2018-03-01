@@ -11,8 +11,8 @@ import android.view.WindowManager;
 
 /**
  * @author 紫紫 on 2017/8/7
- * Q157596462@outlook.com
- * 描述：单位转换类
+ *         Q157596462@outlook.com
+ *         描述：单位转换类
  */
 public class DimenUtils {
 

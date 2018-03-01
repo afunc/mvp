@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.lang.annotation.Retention;

@@ -25,9 +25,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'junit:junit:4.12'
-    compile 'org.jetbrains:annotations-java5:15.0'
+    provided 'com.android.support:appcompat-v7:25.3.1'
+    testCompile 'junit:junit:4.12'
+    provided 'org.jetbrains:annotations-java5:15.0'
 }
 
 task jarDelete(type: Delete) {
@@ -43,4 +43,15 @@ task jarMake(dependsOn :['compileReleaseJavaWithJavac','jarDelete'],type:Jar){
     exclude('**/R.class')
     exclude('**/BuildConfig.class')
     include('**/**.*')
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    options.encoding "UTF-8"
+    options.charSet 'UTF-8'
+    options.author true
+    options.version true
+//    options.links "https://github.com/linglongxin24/FastDev/tree/master/mylibrary/docs/javadoc"
+    failOnError false
 }

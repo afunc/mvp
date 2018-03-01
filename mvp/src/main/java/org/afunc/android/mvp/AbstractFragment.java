@@ -14,8 +14,8 @@ import java.lang.annotation.Annotation;
 
 /**
  * @author 紫紫 on 2017/8/7
- * Q157596462@outlook.com
- * 描述：MVP模型中把Fragment作为view层，可通过getPresenter()调用对应的presenter实例
+ *         Q157596462@outlook.com
+ *         描述：MVP模型中把Fragment作为view层，可通过getPresenter()调用对应的presenter实例
  */
 public abstract class AbstractFragment<T extends SuperPresenter> extends Fragment {
 
@@ -88,6 +88,7 @@ public abstract class AbstractFragment<T extends SuperPresenter> extends Fragmen
 
     /**
      * 设置布局
+     *
      * @return 布局文件ID
      */
     protected abstract @LayoutRes
@@ -130,7 +131,7 @@ public abstract class AbstractFragment<T extends SuperPresenter> extends Fragmen
      * 生成 P 对象
      */
     @SuppressWarnings("unchecked")
-     final void attachPresenter() {
+    final void attachPresenter() {
         Annotation[] annotations = getClass().getAnnotations();
         if (annotations.length > 0) {
             for (Annotation annotation : annotations) {

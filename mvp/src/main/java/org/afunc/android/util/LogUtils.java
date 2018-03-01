@@ -3,9 +3,9 @@ package org.afunc.android.util;
 import android.util.Log;
 
 /**
- * @author  紫紫 on 2017/8/7
- * Q157596462@outlook.com
- * 描述：日志封装
+ * @author 紫紫 on 2017/8/7
+ *         Q157596462@outlook.com
+ *         描述：日志封装
  */
 public class LogUtils {
 
@@ -21,18 +21,17 @@ public class LogUtils {
     }
 
     /**
-     *
      * @param debug 是否显示
      */
     public static void init(boolean debug) {
         DEBUG = debug;
     }
+
     /**
-     *
-     * @param tag tag 字符串
+     * @param tag   tag 字符串
      * @param debug 是否显示
      */
-    public static void init(String tag ,boolean debug) {
+    public static void init(String tag, boolean debug) {
         DEBUG = debug;
         mTAG = tag;
     }
@@ -67,10 +66,10 @@ public class LogUtils {
      * @param e   可抛异常
      */
     private static void e(String tag, String msg, Throwable e) {
-        if (DEBUG){
+        if (DEBUG) {
             Log.e(tag, msg, e);
-        }else {
-            Log.e(tag,"Log hide ！ if need show log use LogUtils.init(true) ");
+        } else {
+            Log.e(tag, "Log hide ！ if need show log use LogUtils.init(true) ");
         }
     }
 }

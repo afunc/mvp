@@ -25,6 +25,7 @@ import java.lang.annotation.Annotation;
  * Created by 紫紫 on 2017/8/7
  * Q157596462@outlook.com
  * 描述：MVP模型中把Activity作为view层，可通过getPresenter()调用对应的presenter实例
+ *
  * @author 紫紫
  */
 public abstract class AbstractActivity<P extends SuperPresenter> extends AppCompatActivity {
@@ -51,6 +52,7 @@ public abstract class AbstractActivity<P extends SuperPresenter> extends AppComp
 
     /**
      * 设置布局
+     *
      * @return 返回一个布局ID
      */
     protected abstract @LayoutRes
@@ -74,7 +76,6 @@ public abstract class AbstractActivity<P extends SuperPresenter> extends AppComp
     }
 
     /**
-     *
      * @return 与此activity 绑定的presenter
      */
     public @Nullable
@@ -178,9 +179,10 @@ public abstract class AbstractActivity<P extends SuperPresenter> extends AppComp
     }
 
     /**
-     *  如果是返回键且当前没有fragment 的情况下 就调用 finish() 其他情况 调用 super.onKeyDown(keyCode, event);
+     * 如果是返回键且当前没有fragment 的情况下 就调用 finish() 其他情况 调用 super.onKeyDown(keyCode, event);
+     *
      * @param keyCode 按键代码
-     * @param event 事件
+     * @param event   事件
      * @return
      */
     @Override
