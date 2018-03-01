@@ -1,14 +1,14 @@
 package org.afunc.android.util;
 
-import android.content.Context;
 import android.util.Log;
 
 /**
- * Created by 紫紫 on 2017/8/7
+ * @author  紫紫 on 2017/8/7
  * Q157596462@outlook.com
  * 描述：日志封装
  */
 public class LogUtils {
+
     private static boolean DEBUG = false;
     private static String mTAG = "紫紫";
 
@@ -54,11 +54,11 @@ public class LogUtils {
 
 
     /**
-     * @param TAG 标志位
+     * @param tag 标志位
      * @param msg 错误提示
      */
-    public static void e(String TAG, String msg) {
-        e(mTAG + TAG, msg, null);
+    public static void e(String tag, String msg) {
+        e(mTAG + tag, msg, null);
     }
 
     /**
@@ -67,7 +67,10 @@ public class LogUtils {
      * @param e   可抛异常
      */
     private static void e(String tag, String msg, Throwable e) {
-        if (DEBUG)
+        if (DEBUG){
             Log.e(tag, msg, e);
+        }else {
+            Log.e(tag,"Log hide ！ if need show log use LogUtils.init(true) ");
+        }
     }
 }

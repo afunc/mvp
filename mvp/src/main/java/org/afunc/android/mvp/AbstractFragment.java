@@ -13,19 +13,19 @@ import org.afunc.android.util.LogUtils;
 import java.lang.annotation.Annotation;
 
 /**
- * Created by 紫紫 on 2017/8/7
+ * @author 紫紫 on 2017/8/7
  * Q157596462@outlook.com
  * 描述：MVP模型中把Fragment作为view层，可通过getPresenter()调用对应的presenter实例
  */
-public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
+public abstract class AbstractFragment<T extends SuperPresenter> extends Fragment {
 
-    private final String TAG = "SuperFragment";
+    private final String TAG = "AbstractFragment";
 
     private T mPresenter;
-    private Context mContext;
+    protected Context mContext;
 
     private View mView;
-    private SuperActivity activity;
+    private AbstractActivity activity;
 
 
     /**
@@ -39,7 +39,7 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
         beforeAttach(context);
         super.onAttach(context);
         mContext = context;
-        activity = (SuperActivity) context;
+        activity = (AbstractActivity) context;
         afterAttach();
     }
 
@@ -53,7 +53,7 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
 
 
     @SuppressWarnings("unchecked")
-    public <V extends View> V $(@IdRes int id) {
+    public <V extends View> V findById(@IdRes int id) {
         View view = mView.findViewById(id);
         return (V) view;
     }
@@ -86,12 +86,16 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
     protected void beforeCreate(Bundle savedInstanceState) {
     }
 
+    /**
+     * 设置布局
+     * @return 布局文件ID
+     */
     protected abstract @LayoutRes
     int setContentResource();
 
 
     @NonNull
-    @Override //container ---> activity
+    @Override
     @CallSuper
     public final View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         beforeCreatedView(inflater, container, savedInstanceState);
@@ -168,16 +172,12 @@ public abstract class SuperFragment<T extends SuperPresenter> extends Fragment {
     /**
      * @return 拥有此fragment 的 superActivity
      */
-    public SuperActivity getHoldingActivity() {
+    protected AbstractActivity getHoldingActivity() {
         return activity;
     }
 
 
-    public T getPresenter() {
+    protected T getPresenter() {
         return mPresenter;
-    }
-
-    public Context getContext() {
-        return mContext;
     }
 }

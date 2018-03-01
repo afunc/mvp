@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by 紫紫 on 2017/8/7
+ * @author  紫紫 on 2017/8/7
  * Q157596462@outlook.com
  * 描述：
  */
@@ -21,7 +21,10 @@ public class SuperModel {
     private static Map<String, SuperModel> mInstanceMap = new HashMap<>();
 
     private final String TAG = "SuperModel";
-    private final String OBJECT_CACHE = "ObjectCache"; //缓存对象文件目录
+    /**
+     * 缓存对象文件目录
+     */
+    private final String OBJECT_CACHE = "ObjectCache";
     private String mObjectCachePath;
     protected SharedPreferences mSP;
     protected SharedPreferences.Editor mEditor;
@@ -33,7 +36,11 @@ public class SuperModel {
         mObjectCachePath = mContext.getExternalFilesDir(OBJECT_CACHE).getAbsolutePath();
     }
 
-    //这样去写单例模式虽然可以省去很多代码，不过因为newInstance方法有限制：构造函数必须public,必须有一个构造函数没有参数
+    /**
+     * 这样去写单例模式虽然可以省去很多代码，不过因为newInstance方法有限制：
+     * 构造函数必须public,必须有一个构造函数没有参数
+     * @param context 上下文对象
+     */
     public static void initialize(Context context) {
         mContext = context;
     }

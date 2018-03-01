@@ -25,11 +25,12 @@ import java.lang.annotation.Annotation;
  * Created by 紫紫 on 2017/8/7
  * Q157596462@outlook.com
  * 描述：MVP模型中把Activity作为view层，可通过getPresenter()调用对应的presenter实例
+ * @author 紫紫
  */
-public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatActivity {
+public abstract class AbstractActivity<P extends SuperPresenter> extends AppCompatActivity {
 
     private final String TAG = "SuperActivity";
-    private Dialog mDialog;
+    protected Dialog mDialog;
     private P mPresenter;
 
 
@@ -48,7 +49,12 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
         afterCreate();
     }
 
-    protected  abstract @LayoutRes int setContentResource();
+    /**
+     * 设置布局
+     * @return 返回一个布局ID
+     */
+    protected abstract @LayoutRes
+    int setContentResource();
 
     protected void handIntent(@NonNull Intent intent) {
     }
@@ -57,17 +63,22 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
     }
 
     protected void afterCreate() {
-        if (null!=mPresenter){
+        if (null != mPresenter) {
             mPresenter.init();
         }
     }
 
     @SuppressWarnings("unchecked")
-    protected <V extends View> V $(@IdRes int id) {
+    protected <V extends View> V findById(@IdRes int id) {
         return (V) super.findViewById(id);
     }
 
-    public P getPresenter() {
+    /**
+     *
+     * @return 与此activity 绑定的presenter
+     */
+    public @Nullable
+    P getPresenter() {
         return mPresenter;
     }
 
@@ -114,20 +125,18 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
      * 显示进度条的dialog
      */
     public void showLoadingDialog(String msg) {
-        if (mDialog == null) {
-            ProgressBar progressBar = new ProgressBar(this);
-            progressBar.setPadding(DimenUtils.dp2px(16),
-                    DimenUtils.dp2px(16),
-                    DimenUtils.dp2px(16),
-                    DimenUtils.dp2px(16));
-            progressBar.setBackgroundResource(android.R.color.transparent);
-            mDialog = new AlertDialog.Builder(this)
-                    .setView(progressBar)
-                    .setMessage(msg)
-                    .create();
-        }
+        ProgressBar progressBar = new ProgressBar(this);
+        progressBar.setPadding(DimenUtils.dp2px(16),
+                DimenUtils.dp2px(16),
+                DimenUtils.dp2px(16),
+                DimenUtils.dp2px(16));
+        progressBar.setBackgroundResource(android.R.color.transparent);
+        mDialog = new AlertDialog.Builder(this)
+                .setView(progressBar)
+                .setMessage(msg)
+                .create();
         mDialog.setCanceledOnTouchOutside(false);
-        mDialog.show();
+        showDialog(mDialog);
     }
 
 
@@ -168,7 +177,12 @@ public abstract class SuperActivity<P extends SuperPresenter> extends AppCompatA
     protected void beforeDestroy() {
     }
 
-    //返回键返回事件 默认结束自己
+    /**
+     *  如果是返回键且当前没有fragment 的情况下 就调用 finish() 其他情况 调用 super.onKeyDown(keyCode, event);
+     * @param keyCode 按键代码
+     * @param event 事件
+     * @return
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (KeyEvent.KEYCODE_BACK == keyCode) {

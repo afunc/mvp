@@ -3,7 +3,7 @@ package org.afunc.android.mvp;
 import java.lang.annotation.*;
 
 /**
- * Created by 紫紫 on 2017/8/7
+ * @author 紫紫 on 2017/8/7
  * Q157596462@outlook.com
  * 描述：确认有 某个 类
  */

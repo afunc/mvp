@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.lang.annotation.Retention;
@@ -13,9 +14,9 @@ import static android.widget.Toast.LENGTH_LONG;
 import static android.widget.Toast.LENGTH_SHORT;
 
 /**
- * Created by 紫紫 on 2017/8/7
- * Q157596462@outlook.com
- * 描述：Toast统一管理类 默认显示 Toast
+ * @author 紫紫 on 2017/8/7
+ *         Q157596462@outlook.com
+ *         描述：Toast统一管理类 默认显示 Toast
  */
 public class ToastUtils {
     /**
@@ -26,6 +27,10 @@ public class ToastUtils {
     public @interface Duration {
     }
 
+    /**
+     * 一秒
+     */
+    private static final int SECOND = 1000;
     private static Toast toast;
     private static CharSequence oldMsg;
     private static long first = 0;
@@ -72,11 +77,15 @@ public class ToastUtils {
     /**
      * 自定义显示Toast时间
      *
-     * @param message  信息
-     * @param duration 时长
+     * @param stringRes 信息ID
+     * @param duration  时长
      */
-    public static void show(@StringRes int message, @Duration int duration) {
-        showToast(mContext.getResources().getString(message), duration);
+    public static void show(@StringRes int stringRes, @Duration int duration) {
+        if (mContext != null) {
+            showToast(mContext.getResources().getString(stringRes), duration);
+        } else {
+            uninitialized();
+        }
     }
 
     /**
@@ -84,7 +93,7 @@ public class ToastUtils {
      * @param duration 时长
      */
     private static void showToast(@NonNull CharSequence message, @NonNull @Duration int duration) {
-        if (mContext != null)
+        if (mContext != null) {
             if (null == toast) {
                 toast = Toast.makeText(mContext.getApplicationContext(), message, duration);
                 toast.show();
@@ -92,7 +101,7 @@ public class ToastUtils {
             } else {
                 second = System.currentTimeMillis();
                 if (message.equals(oldMsg)) {
-                    if (second - first > 1000) {
+                    if (second - first > SECOND) {
                         toast.show();
                     }
                 } else {
@@ -101,6 +110,14 @@ public class ToastUtils {
                     toast.show();
                 }
             }
+        } else {
+            uninitialized();
+        }
         first = second;
     }
+
+    private static void uninitialized() {
+        LogUtils.e("ToastUtils uninitialized !");
+    }
+
 }
