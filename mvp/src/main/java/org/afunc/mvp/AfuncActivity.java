@@ -1,7 +1,6 @@
 package org.afunc.mvp;
 
 import android.annotation.TargetApi;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,14 +9,9 @@ import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
-
-import org.afunc.util.DimenUtils;
-import org.afunc.util.LogUtils;
 
 import java.lang.annotation.Annotation;
 
@@ -28,12 +22,10 @@ import java.lang.annotation.Annotation;
  *
  * @author 紫紫
  */
-public abstract class AbstractActivity<P extends SuperPresenter> extends AppCompatActivity {
+public abstract class AfuncActivity<P extends AfuncPresenter> extends AppCompatActivity {
 
-    private final String TAG = "SuperActivity";
-    protected Dialog mDialog;
+    protected String TAG = "AfuncActivity";
     private P mPresenter;
-
 
     /**
      * onCreate final 避免被重写 可使用 beforeSuper 和 afterSuper
@@ -58,12 +50,16 @@ public abstract class AbstractActivity<P extends SuperPresenter> extends AppComp
     protected abstract @LayoutRes
     int setContentResource();
 
+    @CallSuper
     protected void handIntent(@NonNull Intent intent) {
     }
 
+    @CallSuper
     protected void beforeCreate(@Nullable Bundle savedInstanceState) {
+        TAG = this.getClass().getSimpleName();
     }
 
+    @CallSuper
     protected void afterCreate() {
         if (null != mPresenter) {
             mPresenter.init();
@@ -87,7 +83,7 @@ public abstract class AbstractActivity<P extends SuperPresenter> extends AppComp
      * 生成 P 对象
      */
     @SuppressWarnings("unchecked")
-    private final void attachPresenter() {
+    final void attachPresenter() {
         Annotation[] annotations = getClass().getAnnotations();
         if (annotations.length > 0) {
             for (Annotation annotation : annotations) {
@@ -98,7 +94,7 @@ public abstract class AbstractActivity<P extends SuperPresenter> extends AppComp
                         mPresenter.attachView(this);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        LogUtils.e(TAG, e);
+                        Log.e(TAG,"presenter bind fail!",e);
                     }
                 }
             }
@@ -115,47 +111,15 @@ public abstract class AbstractActivity<P extends SuperPresenter> extends AppComp
         afterSetContentView();
     }
 
+    @CallSuper
     protected void beforeSetContentView() {
 
     }
 
+    @CallSuper
     protected void afterSetContentView() {
     }
 
-    /**
-     * 显示进度条的dialog
-     */
-    public void showLoadingDialog(String msg) {
-        ProgressBar progressBar = new ProgressBar(this);
-        progressBar.setPadding(DimenUtils.dp2px(16),
-                DimenUtils.dp2px(16),
-                DimenUtils.dp2px(16),
-                DimenUtils.dp2px(16));
-        progressBar.setBackgroundResource(android.R.color.transparent);
-        mDialog = new AlertDialog.Builder(this)
-                .setView(progressBar)
-                .setMessage(msg)
-                .create();
-        mDialog.setCanceledOnTouchOutside(false);
-        showDialog(mDialog);
-    }
-
-
-    public void showDialog(@NonNull Dialog dialog) {
-        dismissDialog();
-        mDialog = dialog;
-        mDialog.show();
-    }
-
-    /**
-     * 隐藏销毁 对话框
-     */
-    public void dismissDialog() {
-        if (mDialog != null) {
-            mDialog.dismiss();
-            mDialog = null;
-        }
-    }
 
     /**
      * onDestroy final 避免被重写 可使用 beforeSuper 和 afterSuper
@@ -165,34 +129,17 @@ public abstract class AbstractActivity<P extends SuperPresenter> extends AppComp
     protected final void onDestroy() {
         beforeDestroy();
         super.onDestroy();
-        dismissDialog();
         if (mPresenter != null) {
             mPresenter = null;
         }
         afterDestroy();
     }
 
+    @CallSuper
     protected void afterDestroy() {
     }
 
+    @CallSuper
     protected void beforeDestroy() {
-    }
-
-    /**
-     * 如果是返回键且当前没有fragment 的情况下 就调用 finish() 其他情况 调用 super.onKeyDown(keyCode, event);
-     *
-     * @param keyCode 按键代码
-     * @param event   事件
-     * @return super.onKeyDown(keyCode, event); or true
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (KeyEvent.KEYCODE_BACK == keyCode) {
-            if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-                finish();
-                return true;
-            }
-        }
-        return super.onKeyDown(keyCode, event);
     }
 }

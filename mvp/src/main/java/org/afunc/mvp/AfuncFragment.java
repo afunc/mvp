@@ -4,11 +4,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.*;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.afunc.util.LogUtils;
 
 import java.lang.annotation.Annotation;
 
@@ -17,15 +17,15 @@ import java.lang.annotation.Annotation;
  *         Q157596462@outlook.com
  *         描述：MVP模型中把Fragment作为view层，可通过getPresenter()调用对应的presenter实例
  */
-public abstract class AbstractFragment<T extends SuperPresenter> extends Fragment {
+public abstract class AfuncFragment<T extends AfuncPresenter> extends Fragment {
 
-    private final String TAG = "AbstractFragment";
+    protected String TAG = "AfuncFragment";
 
     private T mPresenter;
     protected Context mContext;
 
     private View mView;
-    private AbstractActivity activity;
+    private AfuncActivity activity;
 
 
     /**
@@ -39,21 +39,22 @@ public abstract class AbstractFragment<T extends SuperPresenter> extends Fragmen
         beforeAttach(context);
         super.onAttach(context);
         mContext = context;
-        activity = (AbstractActivity) context;
+        activity = (AfuncActivity) context;
         afterAttach();
     }
 
+    @CallSuper
     protected void afterAttach() {
 
     }
 
+    @CallSuper
     protected void beforeAttach(Context context) {
 
     }
 
-
     @SuppressWarnings("unchecked")
-    public <V extends View> V findById(@IdRes int id) {
+    protected <V extends View> V findById(@IdRes int id) {
         View view = mView.findViewById(id);
         return (V) view;
     }
@@ -83,6 +84,7 @@ public abstract class AbstractFragment<T extends SuperPresenter> extends Fragmen
      *
      * @param savedInstanceState 系统状态 bundle
      */
+    @CallSuper
     protected void beforeCreate(Bundle savedInstanceState) {
     }
 
@@ -122,6 +124,7 @@ public abstract class AbstractFragment<T extends SuperPresenter> extends Fragmen
      * @param container          viewGroup
      * @param savedInstanceState 系统状态 bundle
      */
+    @CallSuper
     protected void beforeCreatedView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
     }
@@ -142,7 +145,7 @@ public abstract class AbstractFragment<T extends SuperPresenter> extends Fragmen
                         mPresenter.attachView(this);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        LogUtils.e(TAG + "", e);
+                        Log.e(TAG,"presenter bind fail!",e);
                     }
                 }
             }
@@ -173,7 +176,7 @@ public abstract class AbstractFragment<T extends SuperPresenter> extends Fragmen
     /**
      * @return 拥有此fragment 的 superActivity
      */
-    protected AbstractActivity getHoldingActivity() {
+    protected AfuncActivity getHoldingActivity() {
         return activity;
     }
 

@@ -3,8 +3,7 @@ package org.afunc.mvp;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-
-import org.afunc.util.LogUtils;
+import android.util.Log;
 
 import java.io.*;
 import java.util.HashMap;
@@ -16,12 +15,12 @@ import java.util.Set;
  *         Q157596462@outlook.com
  *         描述：
  */
-public class SuperModel {
+public class AfuncModel {
 
     private static Context mContext;
-    private static Map<String, SuperModel> mInstanceMap = new HashMap<>();
+    private static Map<String, AfuncModel> mInstanceMap = new HashMap<>();
 
-    private final String TAG = "SuperModel";
+    private final String TAG = "AfuncModel";
     /**
      * 缓存对象文件目录
      */
@@ -31,7 +30,7 @@ public class SuperModel {
     protected SharedPreferences.Editor mEditor;
 
     @SuppressLint("CommitPrefEdits")
-    public SuperModel() {
+    public AfuncModel() {
         mSP = mContext.getSharedPreferences(mContext.getPackageName(), Context.MODE_PRIVATE);
         mEditor = mSP.edit();
         mObjectCachePath = mContext.getExternalFilesDir(OBJECT_CACHE).getAbsolutePath();
@@ -48,7 +47,7 @@ public class SuperModel {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends SuperModel> T getInstance(Class<T> model) {
+    public static <T extends AfuncModel> T getInstance(Class<T> model) {
         if (!mInstanceMap.containsKey(model.getSimpleName())) {
             synchronized (model) {
                 try {
@@ -143,7 +142,7 @@ public class SuperModel {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            LogUtils.e(TAG, "文件流打开失败。");
+            Log.e(TAG, "文件流打开失败。");
         }
 
     }
@@ -151,7 +150,7 @@ public class SuperModel {
     public Object getObject(String key) {
         File objectFile = new File(mObjectCachePath + "/" + key);
         if (!objectFile.exists()) {
-            LogUtils.e(TAG, "该对象没有被缓存");
+            Log.e(TAG, "该对象没有被缓存");
             return null;
         }
         try {
@@ -163,7 +162,7 @@ public class SuperModel {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            LogUtils.e(TAG, "对象缓存读取失败");
+            Log.e(TAG, "对象缓存读取失败");
         }
         return null;
     }
