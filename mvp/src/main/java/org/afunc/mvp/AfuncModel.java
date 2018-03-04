@@ -17,7 +17,7 @@ import java.util.Set;
  */
 public class AfuncModel {
 
-    private static Context mContext;
+    private Context mContext;
     private static Map<String, AfuncModel> mInstanceMap = new HashMap<>();
 
     private final String TAG = "AfuncModel";
@@ -30,20 +30,11 @@ public class AfuncModel {
     protected SharedPreferences.Editor mEditor;
 
     @SuppressLint("CommitPrefEdits")
-    public AfuncModel() {
+    public AfuncModel(Context context) {
+        mContext=context;
         mSP = mContext.getSharedPreferences(mContext.getPackageName(), Context.MODE_PRIVATE);
         mEditor = mSP.edit();
         mObjectCachePath = mContext.getExternalFilesDir(OBJECT_CACHE).getAbsolutePath();
-    }
-
-    /**
-     * 这样去写单例模式虽然可以省去很多代码，不过因为newInstance方法有限制：
-     * 构造函数必须public,必须有一个构造函数没有参数
-     *
-     * @param context 上下文对象
-     */
-    public static void initialize(Context context) {
-        mContext = context;
     }
 
     @SuppressWarnings("unchecked")
